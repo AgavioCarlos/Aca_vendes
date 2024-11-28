@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/miapp/Estilos-Formularios.css">
+    <title>Document</title>
+</head>
+<body>
+    <!-- subir_foto.html -->
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Subir</button>
+</form>
+
+<h2>Cargar Publicación</h2>
+    
+<form  method="post" enctype="multipart/form-data">
+
+    {% csrf_token %}
+    <!-- {{ form.as_p }} -->
+    <!-- Categoría -->
+    <label for="categoria">Categoría:</label>
+    <select name="categoria" id="categoria" required>
+        <option value="">Selecciona una categoría</option>
+        {% for categoria in categorias %}
+            <option value="{{ categoria.nid_categoria }}">{{ categoria.ccategoria }}</option>
+        {% endfor %}
+    </select><br><br>
+    <!-- Nombre del producto -->
+    <!-- {% csrf_token %}
+    {{ form.as_p }} -->
+    <label for="nombreProducto">Nombre del Producto:</label>
+    <input type="text" id="nombreProducto" name="nombreProducto" required><br><br>
+
+    <!-- Descripción -->
+    <label for="descripcion">Descripción:</label>
+    <textarea id="descripcion" name="descripcion" rows="4" cols="50" required></textarea><br><br>
+
+    <!-- Precio -->
+    <label for="precio">Precio:</label>
+    <input type="number" id="precio" name="precio" step="0.01" required><br><br>
+
+    <!-- Unidades -->
+    <label for="unidades">Unidades:</label>
+    <input type="number" id="unidades" name="unidades" required><br><br>
+    <!-- Categoria -->
+    <!-- {% csrf_token %}
+   <select name="categoria" class="Categorias">
+    <option value="">Categoria</option>
+    {% for categoria in categorias %}
+        <option value="{{ categoria.nid_categoria }}">{{ categoria.ccategoria }}</option>
+    {% endfor %}
+   </select>  -->
+   <br> <br>
+    <!-- Fotos
+    <label for="fotos">Cargar Fotos:</label>
+    <input type="file" id="fotos" name="fotos[]" accept="image/*" multiple required><br><br> -->
+
+     
+    <!-- subir_foto.html -->
+    {% csrf_token %}
+    {{ form.as_p }} 
+    <label for="unidades">Seleccionar imagenes:</label>
+    <button type="submit" name="">Subir</button>
+    <br><br>
+    <!-- Botón de envío -->
+    <button type="submit">Publicar</button>
+</form>
+</body>
+</html>
+

@@ -1,0 +1,164 @@
+﻿body {
+    min-height: 100vh;
+    background: linear-gradient(to right, #B9CAF0, #25324D);
+    flex-direction: column;
+    display: flex; /* Habilita Flexbox en el contenedor principal (body) */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    margin: 0;
+}
+/*La config para que se pueda centrar  mi caja principal del login*/
+
+#box {
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    width: 700px;
+    height: 600px;
+    background-color: rgb(255, 255, 255, 0.3);
+    border-radius: 2rem;
+    transition: ease 0.05;
+    margin: auto;
+}
+    /*Configuracion de estilos de la caja que almacena los inputs del login*/
+    #box:hover {
+        background-color: rgb(255, 255, 255, 0.1);
+        /*transform: scale(1.1);*/
+        border: 2px solid black;
+    }
+
+#Titulo {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 60px;
+    text-align: center;
+}
+/*Estilos del titulo principal*/
+#Logo {
+    display: flex;
+    justify-content: center;
+    margin: 20px auto 10px;
+    width: 500px;
+}
+
+#Caja-user {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 30px;
+    border-radius: 2rem;
+    text-align: center;
+    margin: 20px 180px 10px 180px;
+    border: white;
+    outline: none;
+    background-color: rgb(255, 255, 255, 0.1);
+}
+    /*Estilos para la caja de texto de usuario*/
+    #Caja-user:hover {
+        border: 2px solid black;
+        transform: scale(1.1);
+        background-color: rgb(230, 230, 230);
+    }
+
+#Caja-pass {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 30px;
+    border-radius: 2rem;
+    text-align: center;
+    margin: 10px 180px 20px 180px;
+    border: white;
+    outline: none;
+    background-color: rgb(255, 255, 255, 0.1);
+}
+    /*Estilos para la caja de contraseña*/
+    #Caja-pass:hover {
+        border: 2px solid black;
+        transform: scale(1.1);
+        background-color: rgb(230, 230, 230);
+    }
+
+.boton-login {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 20px;
+    border-radius: 2rem;
+    text-align: center;
+    width: 150px;
+    height: 50px;
+    margin: 5px 180px 5px 180px;
+    background-color: #DBA62A;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.5 ease-in-out;
+}
+    /*Estilos para el boton para loguearme, este apartado solo es para los estilos de la etiqueta boton*/
+    .boton-login:hover {
+        border: 2px solid black;
+        transform: scale(1.2);
+        background-color: #8F763B;
+    }
+
+
+#Caja-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/*Caja que guarda el boton de login, es un div*/
+
+.Caja {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/*Clase que contiene las propiedades que centran el titulo, los inputs y el boton login*/
+
+#recuperar-pass {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: rgb(0, 0, 0);
+    font-size: 15px;
+    width: 250px;
+    height: 100px;
+    margin: 5px auto 5px;
+}
+
+#rec-pass {
+    margin: 20px 10px 20px 10px;
+    transition: transform 0.5 ease;
+}
+
+    #rec-pass a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+#recuperar-pass:hover {
+    color: #173985;
+    text-decoration: underline;
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+hr {
+    width: 600px;
+    border: 1px solid rgb(255, 255, 255);
+}
+
+#Caja-registro {
+    display: flex;
+    justify-content: center;
+}
+
+#caja-pie-login {
+    margin: auto auto 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#pie-login {
+    font-size: 15px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+    position: relative;
+}

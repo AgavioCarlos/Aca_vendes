@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/miapp/css/Estilos-Formularios.css">
+    <title>Vender</title>
+</head>
+<body>
+        <div id="cabecera">
+            <a href="{% url 'Inicio' %}">
+                <img src="../../static/miapp/img/Aca-Vendes 2.0.png" id="Logo">
+            </a>
+        </div>
+
+            <div id="box_content">
+                <div id="box-form-venta">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <h1 id="T1">Cargar Publicación</h1>
+                        <label for="nombreProducto"></label>
+                        <input type="text" placeholder="Título" class="form-venta" name="nombreProducto" required>
+
+                        <!-- Descripción -->
+                        <label for="descripcion"></label>
+                        <textarea id="descripcion" placeholder="Descripcion" name="descripcion" class="form-venta" rows="50" cols="50" required></textarea>
+
+                        <!-- Precio -->
+                        <label for="precio"></label>
+                        <input type="number" placeholder="Precio" class="form-venta" id="precio" name="precio" step="0.01" required>
+                                                
+                        <!-- Estado_Publicacion -->
+                       <label for="estado"></label>
+                       <select name="estado" id="estado" class="form-venta" required>
+                           <option value="">Estado</option>
+                           {% for estado in estados %}
+                               <option value="{{ estado.nid_estado_publicacion }}">{{ estado.cestado_publicacion }}</option>
+                           {% endfor %}
+                       </select>
+                       
+                        <!-- Categorias -->
+                       <label for="categoria"></label>
+                       <select name="categoria" id="categoria" class="form-venta" required>
+                           <option value="">Categoria</option>
+                           {% for categoria in categorias %}
+                               <option value="{{ categoria.nid_categoria }}">{{ categoria.ccategoria }}</option>
+                           {% endfor %}
+                       </select>
+
+                        <!-- Unidades -->
+                        <label for="unidades"></label>
+                        <input type="number" placeholder="Unidades" id="unidades" class="form-venta" name="unidades" required>
+
+                        {% csrf_token %}
+                       
+                        
+                        <label for="imagen"></label>
+                        <input type="file" name="imagen" placeholder="Subir imagenes" class="form-venta" required> 
+                        <button type="submit" id="Subir" name="">Subir</button> 
+                    </form>
+
+                </div>
+            </div>
+        <footer id="pie-pag">
+            Version 1.0
+            <br>
+            Phytones 2024 &reg;
+        </footer>
+
+</body>
+</html>

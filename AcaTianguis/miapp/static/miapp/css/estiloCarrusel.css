@@ -1,0 +1,62 @@
+.carousel {
+    border-radius: 1rem;
+    background-color: #728394;
+    width: auto;
+    height: 350px;
+    margin: 50px 100px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .carousel-container {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+  }
+  
+  .carousel-image {
+    min-width: 100%;
+    height: auto;
+  }
+  
+  button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .prev-btn {
+    left: 10px;
+  }
+  
+  .next-btn {
+    right: 10px;
+  }
+  
+  .outer-div {
+    width: 100%;
+    height: 500px; /* Puedes ajustar la altura según tus necesidades */
+    background-color: lightgray; /* Solo para visualización */
+}
+
+.inner-div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inner-div img {
+    width: 100%;
+    height: auto; /* Mantiene la proporción de la imagen */
+}
+
+.carousel-item img {
+  width: 100%;
+  height: auto; /* Mantiene la proporción de la imagen */
+}

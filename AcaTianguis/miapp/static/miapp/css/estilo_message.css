@@ -1,0 +1,17 @@
+/* Estilo para mensajes de éxito */
+.alert-success {
+    color: green;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+/* Estilo para mensajes de error */
+.alert-danger {
+    color: red;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    padding: 10px;
+    margin-bottom: 15px;
+}

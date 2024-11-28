@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/miapp/css/Estilos-Formularios.css">
+    <link rel="stylesheet" href="../../static/miapp/css/">
+    <link rel="icon" href="../../static/miapp/img/favicon-32x32.png" type="image/x-icon">
+    <title>Registro</title>
+</head>
+<body>
+    <div id="cabecera">
+        <a href="{% url 'home' %}">
+          <img src="../../static/miapp/img/Aca-Vendes 2.0.png" id="Logo">
+        </a>
+    </div>
+
+    <div id="box-content">
+
+      {% if messages %}
+          <ul>
+          {% for message in messages %}
+          <li>
+              {{ message }}
+          </li>
+          {% endfor %}
+          </ul>
+      {% endif %}
+      <form action="" method="post">
+        <hr>
+        {% csrf_token %}
+        <!-- {{ form.as_p }}  Renderiza el formulario -->
+          <div id="box-2">
+            <h1 id="T1">Ingresa tus datos</h1>
+            <label for="nombre"></label>
+            <input type="text" placeholder="Nombre" name="nombre" required class="Form_regis">
+
+            <label for="apellido_paterno"></label>
+            <input type="text" placeholder="Apellido paterno" name="apellido_paterno" required class="Form_regis">
+
+            <label for="apellido_materno"></label>
+            <input type="text" placeholder="Apellido materno" name="apellido_materno" required class="Form_regis">
+
+            <label for="correo_electronico"></label>
+            <input type="text" placeholder="Correo electronico" name="correo_electronico" required class="Form_regis">
+
+            <label for="usuario"></label>
+            <input type="text" placeholder="Usuario"  name="usuario" class="Form_regis">
+
+            <label for="numero_telefonico"></label>
+            <input type="text" placeholder="Numero celular" name="numero_telefonico" class="Form_regis">
+
+            <label for="password"></label>
+            <input type="password" placeholder="Contraseña" name="password" class="Form_regis">
+            <br>
+
+            <button type="submit" id="Registrarte">Registrarte</button>
+            </div>
+        </form>
+    </div>
+    <footer id="pie-pag">
+        Version 1.0
+        <br>
+        Phytones 2024 &reg;
+    </footer>
+    
+</body>
+</html>

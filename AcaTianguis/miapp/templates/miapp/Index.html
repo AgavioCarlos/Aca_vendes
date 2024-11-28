@@ -1,0 +1,58 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../../static/miapp/css/Estilos.css">
+        <link rel="stylesheet" href="../../static/miapp/estilo_message.css">
+        <title>Aca-Vendes</title>
+    </head>
+    <body>
+    <!-- Mostrar mensajes de éxito o error -->
+    {% if messages %}
+    <ul>
+    {% for message in messages %}
+        <li class="{% if message.tags == 'error' %}alert alert-danger{% elif message.tags == 'success' %}alert alert-success{% endif %}">
+            {{ message }}
+        </li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+        <div id="box">
+            <div id="caja-caja">
+                <form action="" method="post" id="loginform">
+                    {% csrf_token %}
+                <img src="../../static/miapp/img/Aca-Vendes 2.0.png" alt="" id="Logo">
+
+                <div class="Caja">
+                    <label for="numero_cuenta"></label>
+                    <input type="text" placeholder="Usuario" name="usuario"id="Caja_user">
+                
+                </div>
+                <div class="Caja">
+                    <label for="password"></label>
+                    <input type="password" placeholder="Contraseña" name="password" id="Caja_pass">
+                </div>
+                <div id="Caja-login"><button class="boton-login">Iniciar Sesion</button></div>
+                </form>
+                <div id="recuperar-pass"><h2 id="rec-pass"><a href="{% url 'recordar' %}">¿Olvidó su contraseña?</a></h2></div>
+                <hr>
+                <form action="{% url 'registro' %}">
+                    <div id="Caja-registro"><button type="submit" class="boton-login">Unirse</button></div>
+                </form>
+
+            </div>
+        </div>
+    <!--Footer -->
+        <div id="caja-pie-login">
+            <footer id="pie-login">
+                Version 1.0
+                <br>
+                Phytones 2024 &reg;
+            </footer>
+
+            <script src="Vistas/App/main.js"></script>
+        </div>
+        
+    </body>
+    </html>

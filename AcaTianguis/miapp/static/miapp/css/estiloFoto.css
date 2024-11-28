@@ -1,0 +1,12 @@
+.image-container {
+    width: 300px;  /* Ancho del div */
+    height: 200px; /* Alto del div */
+    overflow: hidden; /* Oculta las partes que exceden el div */
+  }
+  
+  .image-container img {
+    width: 100%; /* Ajusta el ancho de la imagen al 100% del div */
+    height: 100%; /* Ajusta el alto al 100% del div */
+    object-fit: cover; /* Mantiene la proporción y cubre el espacio del div */
+  }
+  

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/miapp/css/Estilos-inicio.css">
+    <!-- <link rel="stylesheet" href="../../static/miapp/css/estiloCarrusel.css"> -->
+    <link rel="stylesheet" href="../../static/miapp/css/estilo_producto.css">
+    <link rel="icon" href="../../static/miapp/img/favicon-32x32.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+    <title>Aca-Vendes</title>
+</head>
+<body>
+
+<div id="cabecera">
+    <div id="box_logo">
+        <a href="{% url 'Inicio' %}"><img src="../../static/miapp/img/Aca-Vendes 2.0.png" id="Logo"></a>
+        <div class="Busqueda"><i class="fas fa-search"></i></div>
+    </div>
+    <div id="nav_bar">
+        <div class="nav_icons">
+            <a href="{% url 'Inicio' %}">
+                <i class="fas fa-home"></i>
+            </a>
+        </div>
+
+        <div class="nav_icons">
+            <a href="{% url 'perfil' %}">
+                <i class="fas fa-user"></i>
+            </a>
+        </div>
+        
+    </div>
+    <div id="box_opciones">
+        <div class="opciones">
+            <i class="fa-solid fa-gear"></i>
+            <ul id="dropdown-menu" class="hidden">
+                <li id="logout">Cerrar sesión</li> <!-- Este es el botón donde se va a cerrar la sesion de la pagina -->
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<div id="bar"> <!-- div de contenedor -->
+    <div id="cat_bar"> <!-- div de la lista desplegable de Categorías -->
+        <!-- <form method="post"> -->
+        {% csrf_token %}
+        <h1 class="titulo_cat">Categorias</h1>
+        <select name="" class="Categorías">
+            <option value="">Categoria</option>
+            {% for categoria in categorias %}
+            <option value="{{ C1 }}">{{ categoria.ccategoria }}</option>
+            {% endfor %}
+        </select> 
+        
+        <h1 class="titulo_cat">Ordenar por</h1>    
+        <select name="" class="Categorías">
+            <option value="C1">Más recientes</option>
+            <option value="C2">Más antiguos</option>
+            <option value="C3">Más populares</option>
+            <option value="C4">Precio más alto</option>
+            <option value="C5">Precio mas bajo</option>
+        </select>
+
+        <h1 class="titulo_cat">Estado</h1>    
+        <select name="" class="Categorías">
+            <option value="C1">Nuevo</option>
+            <option value="C2">Usado - Como nuevo</option>
+            <option value="C3">Usado - Buen estado</option>
+            <option value="C4">Usado - Aceptable</option>
+        </select>
+
+        <h1 class="titulo_cat">Fecha de publicación</h1>    
+        <select name="" class="Categorías">
+            <option value="C1">Todas</option>
+            <option value="C2">Ultimas 24 horas</option>
+            <option value="C3">Ultimos 7 días</option>
+            <option value="C4">Ultimos 30 días</option>
+        </select>
+
+        <h1 class="titulo_cat">Ordenar por</h1>    
+        <select name="" class="Categorías">
+            <option value="C1">Más recientes</option>
+            <option value="C2">Más antiguos</option>
+            <option value="C3">Más populares</option>
+            <option value="C4">Precio más alto</option>
+            <option value="C5">Precio mas bajo</option>
+        </select>
+    </div>
+</div>
+
+<!-- Faltar modificar --> <!--NUEVOOOO 27 DE NOVIEMBRE -->
+<div class="box_content">  
+    <div class="container-items">
+        {% for publicacion in publicaciones %}
+        <div class="item">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                {% for i in fotos.nid_publicacion %}
+                    <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></li>
+                {% endfor %}
+                </ol>
+                    <div class="carousel-inner">
+                        {% for foto in fotos %}
+                        {% if foto.nid_publicacion.id == publicacion.nid_publicacion.id%}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img src="{{ foto.cubicacion_foto.url }}" alt="..." class="d-block w-100">
+                            </div>
+                        {% endif %}
+                        {% empty %}
+                        <p>No hay fotos para esta publicación.</p>
+                        {% endfor %}
+                    </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+                </a>
+            </div>
+
+            <div class="info-product">
+                <h3 class="card-title">{{ publicacion.cnombre_producto }}</h3>
+                <p>{{ publicacion.descripcion }}</p>
+                <ul>
+                    <li>Precio: {{ publicacion.nprecio }}</li>
+                    <li>Estado: {{ publicacion.nid_estado_publicacion.cestado_publicacion }}</li>
+                    <li>Categoría: {{ publicacion.nid_categoria.ccategoria }}</li>
+                    <li>Unidades: {{ publicacion.nunidades }}</li>
+                </ul>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+    <script src="App/main.js"></script>
+</body>
+</html>
