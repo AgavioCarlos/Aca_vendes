@@ -5,7 +5,7 @@ from .models import Usuario
 from .models import Categoria
 from .models import FotoProducto;
 from .models import Publicaciones;
-
+from .models import FotoPerfil;
 
 class RegistroPersonaForm(forms.ModelForm):
     # password = forms.CharField(widget=forms.PasswordInput)
@@ -35,10 +35,12 @@ class RegistroUsuarioForm(forms.ModelForm):
         if commit:
             user.save()
         return user
-# class CategoriasForm(forms.ModelForm):
-#     class Meta: 
-#         model = Categoria
-#         fields =['nid_categoria', 'ccategoria']
+    
+class GuardarFotoPerfil(forms.ModelForm):
+    class Meta:
+        model = FotoPerfil
+        fields =['cubicacion_foto']
+
 class GuardarFotoPublicacionForm(forms.ModelForm):
     class Meta:
         model = FotoProducto

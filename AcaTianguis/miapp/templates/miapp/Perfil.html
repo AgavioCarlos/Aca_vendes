@@ -18,11 +18,11 @@
         <div id="box-perfil">
 
             <div class="box-foto">
-                <img src="../../static/miapp/img/perfil.jpg" id="foto-perfil">
+                <img src="{{ foto.cubicacion_foto.url }}" id="foto-perfil">
             </div>
 
             <div id="box-nombre-user">
-                <p> {{ perfil.cnombre }} {{ perfil.capellido_paterno }} {{ perfil.capellido_materno }}</p>
+                <p> {{ persona.cnombre }} {{ persona.capellido_paterno }} {{ persona.capellido_materno }}</p>
             </div>
         
             <div id="box-nav-bar-perfil">

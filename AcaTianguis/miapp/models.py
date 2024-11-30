@@ -16,11 +16,11 @@ class datos_personales(models.Model):
         db_table = 'tbl_personas'  # Nombre de la tabla existente
         managed = False 
     def __str__(self):
-        return self.CCORREO
+        return self.nid_persona
         
 class Usuario(models.Model):
     nid_usuario = models.AutoField(primary_key=True)  # Autoincremental
-    nid_persona = models.CharField(max_length=50, default=1)  # Nombre de usuario único
+    nid_persona = models.ForeignKey(datos_personales,on_delete=models.CASCADE, db_column='nid_persona')
     cusuario = models.CharField(max_length=200) 
     ccontrasena = models.CharField(max_length=250)
     bhabilitado = models.BooleanField(default= True)
@@ -30,7 +30,21 @@ class Usuario(models.Model):
         managed = False 
     def __str__(self):
         return self.username
-
+    
+class FotoPerfil (models.Model):
+    nid_foto_persona = models.AutoField(primary_key= True)
+    nid_usuario = models.ForeignKey(Usuario,on_delete=models.CASCADE, db_column='nid_usuario')
+    cubicacion_foto = models.ImageField(upload_to='fotosPerfil/')
+    bhabilitado = models.BooleanField(default=True)
+    dfecha_alta = models.DateField(auto_now= True)
+    
+    class Meta:
+        db_table = 'tbl_foto_persona'
+        managed = False
+        
+    def _str_(self):
+        return self.nid_foto_persona
+    
 class Categoria(models.Model):
     nid_categoria = models.AutoField(primary_key= True)
     ccategoria = models.CharField(max_length=50)

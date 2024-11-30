@@ -26,7 +26,7 @@
         <a href="{% url 'Inicio' %}"><img src="../../static/miapp/img/Aca-Vendes 2.0.png" id="Logo"></a>
         <div class="Busqueda"><i class="fas fa-search"></i></div>
     </div>
-    <p>Hola,  {{ usuario.cusuario }}</p>
+    <p>Hola,  {{ persona.cnombre }}</p>
     <div id="nav_bar">
         <div class="nav_icons">
             <a href="{% url 'Inicio' %}">
@@ -47,7 +47,7 @@
         <div class="opciones">
             <i class="fa-solid fa-right-from-bracket"></i>
             <ul id="dropdown-menu" class="hidden">
-                <li id="logout">Cerrar sesión</li> <!-- Este es el botón donde se va a cerrar la sesion de la pagina -->
+                <li id="logout"> <a href="{% url 'home' %}"></a>Cerrar sesión</li> <!-- Este es el botón donde se va a cerrar la sesion de la pagina -->
             </ul>
         </div>
     </div>
