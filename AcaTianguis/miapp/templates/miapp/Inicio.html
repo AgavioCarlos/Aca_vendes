@@ -26,6 +26,7 @@
         <a href="{% url 'Inicio' %}"><img src="../../static/miapp/img/Aca-Vendes 2.0.png" id="Logo"></a>
         <div class="Busqueda"><i class="fas fa-search"></i></div>
     </div>
+    <p>Hola,  {{ usuario.cusuario }}</p>
     <div id="nav_bar">
         <div class="nav_icons">
             <a href="{% url 'Inicio' %}">
@@ -40,14 +41,32 @@
         </div>
         
     </div>
+
+
     <div id="box_opciones">
         <div class="opciones">
-            <i class="fa-solid fa-gear"></i>
+            <i class="fa-solid fa-right-from-bracket"></i>
             <ul id="dropdown-menu" class="hidden">
                 <li id="logout">Cerrar sesión</li> <!-- Este es el botón donde se va a cerrar la sesion de la pagina -->
             </ul>
         </div>
     </div>
+
+
+    <!--PROBAR!! -->
+    <!-- {% if request.session.cusuario   %}
+    <form action="{% url 'home' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn-logout" style="background: none; border: none;">
+            <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
+        </button>
+    </form>
+    {% else %}
+        <p>No has iniciado sesión.</p>
+    {% endif %} -->
+    
+
+    
 </div>
 
 

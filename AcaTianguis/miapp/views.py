@@ -4,30 +4,61 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .models import Usuario, datos_personales, Categoria, FotoProducto, Publicaciones
 from .models import Estado_Publicacion
-from django import forms
 from .forms import RegistroPersonaForm
 from .forms import RegistroUsuarioForm
 from .forms import GuardarFotoPublicacionForm
 from .forms import GuardarPublicacionForm
 from django.contrib.auth.hashers import make_password, check_password
 from collections import defaultdict
-from django.db import transaction 
 
 def home(request):
     if request.method == 'POST':
-        usuario = request.POST.get('usuario')
-        password = request.POST.get('password')
-        try:
-            usuario = Usuario.objects.get(cusuario=usuario)
-            if check_password(password, usuario.ccontrasena):  # Compara contraseñas (deberías usar hashing en producción)
-                messages.success(request, 'Inicio de sesión exitoso.')
-                return redirect('Inicio')  # Redirigir a la vista de inicio
+        username = request.POST['usuario']
+        password = request.POST['password']
+        
+        try: 
+            # Busca al usuario por correo
+            usuario = Usuario.objects.get(cusuario=username)
+            # Verifica la contraseña
+            if check_password(password, usuario.ccontrasena):
+                # Credenciales válidas
+                #request.session['usuario_id'] = usuario.id_usuario
+                request.session['usuario_cuenta'] = usuario.cusuario
+                request.session['usuario_persona'] = usuario.nid_persona
+                return redirect('Inicio')  # Redirige al perfil o página deseada
             else:
                 messages.error(request, 'Contraseña incorrecta.')
         except Usuario.DoesNotExist:
-            messages.error(request, 'Usuario perdido.')
+             messages.error(request, 'Usuario no encontrado.')
+        request.session.flush() 
+    return render(request, 'miapp/Index.html') 
+
+        # usuario = authenticate(request, username= username, password= password)
+        # if usuario is not None:
+        #     # Guardar el ID del usuario en la sesión
+        #     request.session['usuario_id'] = usuario.cusuario
+        #     login(request, usuario) 
+        #     return redirect('Inicio')
+        # else:
+        #     return HttpResponse("Credenciales incorrectas")
+    
+    
         
-    return render(request, 'miapp/Index.html')
+        
+        
+        # usuario = request.POST.get('usuario')
+        # password = request.POST.get('password')
+        # try:
+        #     usuario = Usuario.objects.get(cusuario=usuario)
+        #     if check_password(password, usuario.ccontrasena):  # Compara contraseñas (deberías usar hashing en producción)
+        #         messages.success(request, 'Inicio de sesión exitoso.')
+        #         return redirect('Inicio')  # Redirigir a la vista de inicio
+        #     else:
+        #         messages.error(request, 'Contraseña incorrecta.')
+        # except Usuario.DoesNotExist:
+        #     messages.error(request, 'Usuario perdido.')
+        
+    #return render(request, 'miapp/Index.html')
 
 def recordarContrasenia(request):
     return render(request, 'miapp/Formulario-olvido-contraseña.html')
@@ -66,8 +97,16 @@ def formularioRegistro(request):
             return redirect('home')
     return render(request, 'miapp/Formulario-registro.html')
 
-
 def Inicio(request):
+    #Obtener sesion 
+    usuario_id = request.session.get('usuario_cuenta')  # Recuperar el ID del usuario
+    if not usuario_id:
+        return redirect('home')  # Redirigir si no hay usuario en la sesión
+
+    # Obtener la información del usuario desde la base de datos
+    usuario = Usuario.objects.get(cusuario=usuario_id)
+    
+    
     categorias = Categoria.objects.all()
     publicaciones = Publicaciones.objects.all()  # Obtiene todas las publicaciones
     fotos = FotoProducto.objects.select_related('nid_publicacion')
@@ -93,59 +132,17 @@ def Inicio(request):
         'categorias': categorias,
         'publicaciones': publicaciones,
         'fotos' : fotos,
+        'usuario' : usuario,
     }
     return render(request, 'miapp/Inicio.html', context)
-
-#SOLO SON PRUEBAS
-def Index(request):
-    return render(request, 'miapp/Index.html')
-
-def subirFoto(request):
-    if request.method == 'POST':
-        form = GuardarFotoPublicacionForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return render(request,'miapp/CargarPublicacion.html')
-    else:
-        form = GuardarFotoPublicacionForm()
-    return render(request, 'miapp/CargarPublicacion.html', {'form': form})
 
 def Publicacion(request):
     fotos = Publicacion.objects.all()
     return render(request, 'Inicio.html', {'fotos': fotos})
 
-def cargarPublicacion(request):
-    categorias = Categoria.objects.all()
-    if request.method == 'POST':
-        categoria = request.POST.get('categoria')
-        nombre_producto = request.POST.get('nombreProducto')
-        descripcion = request.POST.get('descripcion')
-        precio = request.POST.get('precio')
-        unidades = request.POST.get('unidades')    
-        #Agregar la llave primaria de nid_foto_publicacion 
-        publicacion=Publicacion(
-            nid_categoria = categoria,
-            cnombre_producto = nombre_producto, 
-            cdescripcion_producto = descripcion, 
-            nprecio = precio,   
-            nunidades = unidades,     
-            )
-        form = GuardarFotoPublicacionForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-        publicacion.save()
-        return redirect('home')  
-    else: 
-        form = GuardarFotoPublicacionForm()
-    context = {
-        'categorias': categorias,
-        'form': form,
-    }
-    return render(request, 'miapp/CargarPublicacion.html', context)
-
-
 def perfil(request):
-    return render(request, 'miapp/Perfil.html')
+    perfil = datos_personales.objects.get(nid_persona=3)
+    return render(request, 'miapp/Perfil.html', {'perfil': perfil})
 
 def subirPublicacion(request):
     if request.method == 'POST':

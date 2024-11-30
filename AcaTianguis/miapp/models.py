@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.validators import MinLengthValidator
 # Create your models here.
 class datos_personales(models.Model):
     nid_persona = models.AutoField(primary_key=True)
@@ -22,7 +21,7 @@ class datos_personales(models.Model):
 class Usuario(models.Model):
     nid_usuario = models.AutoField(primary_key=True)  # Autoincremental
     nid_persona = models.CharField(max_length=50, default=1)  # Nombre de usuario único
-    cusuario = models.CharField(max_length=50) 
+    cusuario = models.CharField(max_length=200) 
     ccontrasena = models.CharField(max_length=250)
     bhabilitado = models.BooleanField(default= True)
     dfecha_alta = models.DateField(auto_now= True)
