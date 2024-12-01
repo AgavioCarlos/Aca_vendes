@@ -5,7 +5,15 @@ body{
     /*background: linear-gradient(to right, #B9CAF0, #25324D); */
     min-height: 100vh;
 }
-
+#saludo {
+    background-color: #272c36;
+    color: #ffffff; /* color de texto para contrastar con el fondo */
+    font-size: 1.5em; /* tamaño de fuente más grande */
+    padding: 15px; /* espacio alrededor del texto */
+    border-radius: 8px; /* esquinas redondeadas */
+    text-align: center; /* centrado del texto */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* sombra suave */
+}
 #cabecera{
     border-bottom: 2px solid rgb(175, 175, 175);
     width: 100%;
@@ -207,3 +215,15 @@ select{
     border: 0px;
 }
 
+.nav-bar-perfil {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: #25D366; /* Color oficial de WhatsApp */
+    font-size: 1em; /* Tamaño base para el texto */
+}
+
+.nav-bar-perfil i {
+    margin-right: 5px; /* Espaciado entre el ícono y el texto */
+    font-size: 1.5em; /* Aumenta el tamaño del ícono */
+}

@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../static/miapp/css/Estilos-inicio.css">
-    <!-- <link rel="stylesheet" href="../../static/miapp/css/estiloCarrusel.css"> -->
     <link rel="stylesheet" href="../../static/miapp/css/estilo_producto.css">
     <link rel="icon" href="../../static/miapp/img/favicon-32x32.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -18,15 +15,45 @@
 
 
     <title>Aca-Vendes</title>
+    <style>
+        #saludo {
+            background-color: #272c36;
+            color: #ffffff; /* color de texto para contrastar con el fondo */
+            font-size: 1.8em; /* tamaño de fuente más grande */
+            padding: 5px; /* espacio alrededor del texto */
+            border-radius: 10px; /* esquinas redondeadas */
+            text-align: start;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* sombra suave */
+        }
+        .nav-bar-perfil {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: #25D366; /* Color oficial de WhatsApp */
+            font-size: 1em; /* Tamaño base para el texto */
+        }
+
+        .nav-bar-perfil i {
+            margin-right: 5px; /* Espaciado entre el ícono y el texto */
+            font-size: 1.5em; /* Tamaño del ícono */
+        }
+
+        .espacio {
+            display: inline-block;
+            width: 10px; /* Ajusta el ancho del espacio como desees */
+        }
+
+            
+    </style>
 </head>
 <body>
 
 <div id="cabecera">
     <div id="box_logo">
         <a href="{% url 'Inicio' %}"><img src="../../static/miapp/img/Aca-Vendes 2.0.png" id="Logo"></a>
-        <div class="Busqueda"><i class="fas fa-search"></i></div>
+        <div class="Busqueda"><i class="fas fa-search"></i></div>  
     </div>
-    <p>Hola,  {{ persona.cnombre }}</p>
+    <p id="saludo">Hola, {{ persona.cnombre }}</p>
     <div id="nav_bar">
         <div class="nav_icons">
             <a href="{% url 'Inicio' %}">
@@ -42,16 +69,13 @@
         
     </div>
 
-
     <div id="box_opciones">
-        <div class="opciones">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            <ul id="dropdown-menu" class="hidden">
-                <li id="logout"> <a href="{% url 'home' %}"></a>Cerrar sesión</li> <!-- Este es el botón donde se va a cerrar la sesion de la pagina -->
-            </ul>
+        <div class="nav_icons">
+            <a href="{% url 'logout' %}">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </a>
         </div>
     </div>
-
 
     <!--PROBAR!! -->
     <!-- {% if request.session.cusuario   %}
@@ -64,11 +88,7 @@
     {% else %}
         <p>No has iniciado sesión.</p>
     {% endif %} -->
-    
-
-    
 </div>
-
 
 <div id="bar"> <!-- div de contenedor -->
     <div id="cat_bar"> <!-- div de la lista desplegable de Categorías -->
@@ -125,17 +145,17 @@
         <div class="item">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
-                {% for i in fotos.nid_publicacion %}
+                {% for i in fotos_publicacion %}
                     <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></li>
                 {% endfor %}
                 </ol>
                     <div class="carousel-inner">
-                        {% for foto in fotos %}
-                        {% if foto.nid_publicacion.id == publicacion.nid_publicacion.id%}
-                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                <img src="{{ foto.cubicacion_foto.url }}" alt="..." class="d-block w-100">
-                            </div>
-                        {% endif %}
+                        {% for nid_publicacion, fotos in fotos_publicacion.items %}
+                            {% for foto in fotos %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    <img src="{{ foto.cubicacion_foto.url }}" altalt="Foto de la publicación {{ id_publicacion }}" class="d-block w-100">
+                                </div>
+                            {% endfor %}
                         {% empty %}
                         <p>No hay fotos para esta publicación.</p>
                         {% endfor %}
@@ -152,13 +172,21 @@
 
             <div class="info-product">
                 <h3 class="card-title">{{ publicacion.cnombre_producto }}</h3>
-                <p>{{ publicacion.descripcion }}</p>
-                <ul>
-                    <li>Precio: {{ publicacion.nprecio }}</li>
-                    <li>Estado: {{ publicacion.nid_estado_publicacion.cestado_publicacion }}</li>
-                    <li>Categoría: {{ publicacion.nid_categoria.ccategoria }}</li>
-                    <li>Unidades: {{ publicacion.nunidades }}</li>
-                </ul>
+
+                <div class="product-details">
+                    <p><strong>Precio:</strong> ${{ publicacion.nprecio }}</p>
+                    <p><strong>Descripción:</strong> {{ publicacion.cdescripcion_producto }}</p>
+                    <!-- <p><strong>Estado:</strong> {{ publicacion.nid_estado_publicacion.cestado_publicacion }}</p>
+                    <p><strong>Categoría:</strong> {{ publicacion.nid_categoria.ccategoria }}</p>
+                    <p><strong>Unidades disponibles:</strong> {{ publicacion.nunidades }}</p> -->
+                    <p>
+                        <a href="https://wa.me/522261057331" class="nav-bar-perfil">
+                            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                        </a>
+                        <!-- Agrega un elemento de espacio después del enlace -->
+                        <span class="espacio"></span>
+                    </p>
+                </div>
             </div>
         </div>
         {% endfor %}

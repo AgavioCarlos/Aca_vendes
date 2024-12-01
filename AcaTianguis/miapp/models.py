@@ -70,7 +70,8 @@ class Estado_Publicacion(models.Model):
     
 class Publicaciones(models.Model):
     nid_publicacion = models.AutoField(primary_key= True)
-    nid_categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, db_column='nid_categoria') 
+    nid_categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, db_column='nid_categoria')
+    nid_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, db_column='nid_usuario') 
     cnombre_producto = models.CharField(max_length=50)
     cdescripcion_producto = models.CharField(max_length=200)
     nprecio = models.DecimalField(max_digits=10, decimal_places=2)

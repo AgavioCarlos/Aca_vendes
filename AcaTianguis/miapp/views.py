@@ -7,6 +7,7 @@ from .models import Estado_Publicacion
 from django.contrib.auth.hashers import make_password, check_password
 from collections import defaultdict
 from django.db import transaction
+from django.http import JsonResponse
 
 def home(request):
     if request.method == 'POST':
@@ -101,14 +102,24 @@ def Inicio(request):
     
     categorias = Categoria.objects.all()
     publicaciones = Publicaciones.objects.all()  # Obtiene todas las publicaciones
-    fotos = FotoProducto.objects.select_related('nid_publicacion')
+    #fotos = FotoProducto.objects.select_related('nid_publicacion')
+    fotos = FotoProducto.objects.all() #Obtener todas las fotos
 
-        
+    
+    # Diccionario para almacenar fotos agrupadas por `nid_publicacion`
+    fotos_publicacion = {}
+    # Agrupa las fotos por `nid_publicacion`
+    for foto in fotos:
+        id_publicacion = foto.nid_publicacion  # Cambia según el nombre del campo foráneo en tu modelo
+        if id_publicacion not in fotos_publicacion:
+            fotos_publicacion[id_publicacion] = []
+        fotos_publicacion[id_publicacion].append(foto)
+    
     context = {
         'persona' : persona,
         'categorias': categorias,
         'publicaciones': publicaciones,
-        'fotos' : fotos,
+        'fotos_publicacion' : fotos_publicacion,
         'usuario' : usuario,
     }
     return render(request, 'miapp/Inicio.html', context)
@@ -150,6 +161,10 @@ def perfil(request):
     return render(request, 'miapp/Perfil.html', context)
 
 def subirPublicacion(request):
+    
+
+    id_usuario = request.session.get('usuario_id')  # Recuperar el ID del usuario
+    
     if request.method == 'POST':
         nombre_producto = request.POST.get('nombreProducto')
         descripcion = request.POST.get('descripcion')
@@ -157,12 +172,13 @@ def subirPublicacion(request):
         estado_id = request.POST.get('estado')
         categoria_id = request.POST.get('categoria')
         unidades = request.POST.get('unidades')  
-        imagen = request.FILES.get('imagen')          
+        imagenes = request.FILES.getlist('imagenes[]')          
         
         estado = get_object_or_404(Estado_Publicacion, nid_estado_publicacion=estado_id)
         categoria = get_object_or_404(Categoria, nid_categoria=categoria_id)
-        #Crear la publicacion y la foto asociada en una transicción atomica 
+        usuario = get_object_or_404(Usuario, nid_usuario=id_usuario)
         
+        #Crear la publicacion y la foto asociada en una transicción atomica 
         with transaction.atomic():
             publicaciones = Publicaciones.objects.create(
                 cnombre_producto = nombre_producto,
@@ -170,14 +186,18 @@ def subirPublicacion(request):
                 nprecio = precio,
                 nid_estado_publicacion = estado, 
                 nid_categoria = categoria,
+                nid_usuario = usuario,
                 nunidades = unidades 
             )
-            #Crear la foto asociada
-            FotoProducto.objects.create(
-                cubicacion_foto = imagen, 
-                nid_publicacion = publicaciones
-            )
+            for imagen in imagenes:
+                ruta = f"fotos/{imagen.name}"
+                #Crear la foto asociada
+                FotoProducto.objects.create(
+                    cubicacion_foto = ruta, 
+                    nid_publicacion = publicaciones
+                )
         return redirect('Inicio')
+    
     categorias = Categoria.objects.all()
     estados = Estado_Publicacion.objects.all()
     context = {
@@ -185,3 +205,31 @@ def subirPublicacion(request):
         'estados': estados,
     }
     return render(request, 'miapp/Formulario-publicaciones.html', context)
+
+
+def cerrar_sesion(request):
+    # Elimina todas las variables de sesión
+    request.session.flush()
+    # Redirige a la página de inicio
+    if request.method == 'POST':
+        username = request.POST['usuario']
+        password = request.POST['password']
+        
+        try: 
+            # Busca al usuario por correo
+            usuario = Usuario.objects.get(cusuario=username)
+            # Verifica la contraseña
+            if check_password(password, usuario.ccontrasena):
+                # Credenciales válidas
+                request.session['usuario_id'] = usuario.nid_usuario
+                request.session['usuario_cuenta'] = usuario.cusuario
+                # Cuando se usa una llave foránea, se debe guardar el campo que referencia la tabla, no el objeto completo.
+                request.session['usuario_persona'] = usuario.nid_persona.nid_persona
+                
+                return redirect('Inicio')  
+            else:
+                messages.error(request, 'Contraseña incorrecta.')
+        except Usuario.DoesNotExist:
+             messages.error(request, 'Usuario no encontrado.')
+        request.session.flush() 
+    return render(request, 'miapp/Index.html')
