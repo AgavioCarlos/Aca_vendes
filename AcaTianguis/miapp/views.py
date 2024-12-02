@@ -8,6 +8,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from collections import defaultdict
 from django.db import transaction
 from django.http import JsonResponse
+from django.core.files.storage import default_storage
 
 def home(request):
     if request.method == 'POST':
@@ -102,24 +103,15 @@ def Inicio(request):
     
     categorias = Categoria.objects.all()
     publicaciones = Publicaciones.objects.all()  # Obtiene todas las publicaciones
-    #fotos = FotoProducto.objects.select_related('nid_publicacion')
-    fotos = FotoProducto.objects.all() #Obtener todas las fotos
+    fotos = FotoProducto.objects.select_related('nid_publicacion')
 
-    
-    # Diccionario para almacenar fotos agrupadas por `nid_publicacion`
-    fotos_publicacion = {}
-    # Agrupa las fotos por `nid_publicacion`
-    for foto in fotos:
-        id_publicacion = foto.nid_publicacion  # Cambia según el nombre del campo foráneo en tu modelo
-        if id_publicacion not in fotos_publicacion:
-            fotos_publicacion[id_publicacion] = []
-        fotos_publicacion[id_publicacion].append(foto)
+
     
     context = {
         'persona' : persona,
         'categorias': categorias,
         'publicaciones': publicaciones,
-        'fotos_publicacion' : fotos_publicacion,
+        'fotos' : fotos,
         'usuario' : usuario,
     }
     return render(request, 'miapp/Inicio.html', context)
@@ -190,7 +182,8 @@ def subirPublicacion(request):
                 nunidades = unidades 
             )
             for imagen in imagenes:
-                ruta = f"fotos/{imagen.name}"
+                #ruta = f"fotos/{imagen.name}"
+                ruta = default_storage.save(f"fotos/{imagen.name}", imagen)
                 #Crear la foto asociada
                 FotoProducto.objects.create(
                     cubicacion_foto = ruta, 
@@ -233,3 +226,35 @@ def cerrar_sesion(request):
              messages.error(request, 'Usuario no encontrado.')
         request.session.flush() 
     return render(request, 'miapp/Index.html')
+
+def historial(request):
+        #Obtener sesion 
+    usuario_id = request.session.get('usuario_cuenta')  # Recuperar cuenta
+    if not usuario_id:
+        return redirect('home') 
+    
+    # Obtener la información del usuario desde la base de datos
+    usuario = Usuario.objects.get(cusuario=usuario_id)
+    
+    usuario_id = request.session.get('usuario_id')  # Recuperar el ID del usuario
+    # Obtén el registro de la tabla 'tbl_personas' usando el ID
+    try:
+        foto = FotoPerfil.objects.get(nid_usuario=usuario_id)
+    except datos_personales.DoesNotExist:
+        foto = None  # O maneja el caso en que no se encuentra la persona
+    
+    
+    persona_id = request.session.get('usuario_persona') #Recupera el ID de la Persona (Llave foranea)
+    # Obtén el registro de la tabla 'tbl_personas' usando el ID
+    try:
+        persona = datos_personales.objects.get(nid_persona=persona_id)
+    except datos_personales.DoesNotExist:
+        persona = None  # O maneja el caso en que no se encuentra la persona
+    
+    
+    context = {
+        'persona' : persona,
+        'usuario' : usuario,
+        'foto' : foto
+    }
+    return render(request, 'miapp/Historial.html', context)

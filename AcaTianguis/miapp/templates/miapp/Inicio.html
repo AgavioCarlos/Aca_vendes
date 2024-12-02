@@ -145,19 +145,19 @@
         <div class="item">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
-                {% for i in fotos_publicacion %}
+                {% for i in fotos.nid_publicacion %}
                     <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></li>
                 {% endfor %}
                 </ol>
                     <div class="carousel-inner">
-                        {% for nid_publicacion, fotos in fotos_publicacion.items %}
-                            {% for foto in fotos %}
+                        {% for foto in fotos %}
+                            {% if foto.nid_publicacion.id == publicacion.nid_publicacion.id %}
                                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                    <img src="{{ foto.cubicacion_foto.url }}" altalt="Foto de la publicación {{ id_publicacion }}" class="d-block w-100">
+                                    <img src="{{ foto.cubicacion_foto.url }}" altalt="..." class="d-block w-100">
                                 </div>
-                            {% endfor %}
-                        {% empty %}
-                        <p>No hay fotos para esta publicación.</p>
+                            {% endif %}
+                            {% empty %}
+                            <p>No hay fotos para esta publicación.</p>
                         {% endfor %}
                     </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">

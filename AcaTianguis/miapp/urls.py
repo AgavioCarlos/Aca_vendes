@@ -12,6 +12,7 @@ urlpatterns = [
     path('perfil/', views.perfil, name='perfil'),
     path('subirPublicacion/', views.subirPublicacion, name='publicacion'),
     path('logout/', views.cerrar_sesion, name='logout'),
+    path('historial/', views.historial, name='historial'),
     
 ]   + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -1,5 +1,5 @@
 from django.db import models
-# Create your models here.
+
 class datos_personales(models.Model):
     nid_persona = models.AutoField(primary_key=True)
     cnombre = models.CharField(max_length=50)

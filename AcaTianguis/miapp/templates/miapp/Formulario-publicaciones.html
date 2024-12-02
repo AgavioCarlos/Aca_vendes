@@ -52,7 +52,7 @@
                         <input type="number" placeholder="Unidades" id="unidades" class="form-venta" name="unidades" required>
 
                         {% csrf_token %}
-                        <label for="imagen">Subir Imágenes:</label>
+                        <label for="imagen"></label>
                         <input type="file" name="imagenes[]" id="imagen" class="form-venta" multiple required>
                         <input type="hidden" name="id_publicacion" value="{{ id_publicacion }}">
 

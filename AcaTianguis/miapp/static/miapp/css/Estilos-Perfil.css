@@ -1,7 +1,7 @@
 body{
     margin: 0;
     padding: 0;
-    background: #546077;
+    background: #ffffff;
     /*background: linear-gradient(to right, #B9CAF0, #25324D); */
     min-height: 100vh;
 }
@@ -42,5 +42,5 @@ body{
 }
 
 .nav-bar-perfil:hover{
-    background-color: #a6aab3;
+    background-color: #a6b3a7;
 }
