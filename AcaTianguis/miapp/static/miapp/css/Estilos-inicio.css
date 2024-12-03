@@ -1,18 +1,9 @@
 body{
     margin: 0;
     padding: 0;
-    background: #ffffff;
+    background: #546077;
     /*background: linear-gradient(to right, #B9CAF0, #25324D); */
     min-height: 100vh;
-}
-#saludo {
-    background-color: #272c36;
-    color: #ffffff; /* color de texto para contrastar con el fondo */
-    font-size: 1.5em; /* tamaño de fuente más grande */
-    padding: 15px; /* espacio alrededor del texto */
-    border-radius: 8px; /* esquinas redondeadas */
-    text-align: center; /* centrado del texto */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* sombra suave */
 }
 #cabecera{
     border-bottom: 2px solid rgb(175, 175, 175);
@@ -121,6 +112,7 @@ hr{
     margin: auto 10px;
     padding: 30px 40px;
     margin-right: 300px;
+    outline: none;
 }
 .Busqueda:hover{
     border-radius: 1rem;

@@ -17,12 +17,11 @@
     <title>Aca-Vendes</title>
     <style>
         #saludo {
-            background-color: #272c36;
             color: #ffffff; /* color de texto para contrastar con el fondo */
-            font-size: 1.8em; /* tamaño de fuente más grande */
-            padding: 5px; /* espacio alrededor del texto */
+            font-size: 1.5em; /* tamaño de fuente más grande */
+            padding: 2px; /* espacio alrededor del texto */
             border-radius: 10px; /* esquinas redondeadas */
-            text-align: start;
+            text-align: center;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* sombra suave */
         }
         .nav-bar-perfil {
@@ -42,8 +41,57 @@
             display: inline-block;
             width: 10px; /* Ajusta el ancho del espacio como desees */
         }
+        .Busqueda input[type="text"] {
+        font-size: 16px;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        color: #b59d67;
+        border-radius: 1rem; /* Bordes redondeados */
+        padding: 10px 15px; /* Espaciado interno */
+        width: 200px; /* Ancho del cuadro de texto */
+        border: 2px solid #b59d67; /* Borde visible */
+        background-color: transparent; /* Fondo transparente */
+        outline: none; /* Sin contorno predeterminado */
+    
+    }
+    .Busqueda input[type="text"]:focus {
+    border-color: #e7c880; /* Cambia el color del borde al enfocarse */
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo más claro */
+    outline: none; /* Elimina cualquier contorno */
+    }
+    .Busqueda:focus {
+    outline: none; /* Asegura que no se aplique el contorno al enfocarse */
+    }
+    .Busqueda i {
+        color: #b59d67;
+    }
+    #foto-perfil{
+    width: 110px;
+    border-radius: 5rem;
+    margin: 40px auto;
+    display: block;
+    }
+    #perfil_inicio {
+    display: block; /* Convierte el elemento en un bloque para usar margin auto */
+    margin: 40px auto; /* Centra horizontalmente y agrega margen superior e inferior */
+    width: 100px; /* Define un tamaño fijo para la imagen */
+    border-radius: 50%; /* Hace la imagen redonda si es necesario */
+  }
+  .perfil_inicio {
+    display: block; /* Asegura que el div se comporte como un bloque */
+    margin: 20px auto; /* Centra horizontalmente el div */
+    width: 50px; /* Ancho del div */
+    height: 50px; /* Alto del div */
+    background-color: #f0f0f0; /* Color de fondo opcional */
+    border-radius: 50%; /* Hace el div circular */
+    display: flex; /* Centra el icono dentro del div */
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center; /* Centra el contenido verticalmente */
+  }
 
-            
+  .perfil_inicio i {
+    font-size: 20px; /* Ajusta el tamaño del ícono */
+    color: #333; /* Color del ícono */
+  }
     </style>
 </head>
 <body>
@@ -51,9 +99,12 @@
 <div id="cabecera">
     <div id="box_logo">
         <a href="{% url 'Inicio' %}"><img src="../../static/miapp/img/Aca-Vendes 2.0.png" id="Logo"></a>
-        <div class="Busqueda"><i class="fas fa-search"></i></div>  
+        <div class="Busqueda">
+            <input type="text" placeholder="Buscar...">
+            <i class="fas fa-search"></i></div>  
     </div>
-    <p id="saludo">Hola, {{ persona.cnombre }}</p>
+        
+    
     <div id="nav_bar">
         <div class="nav_icons">
             <a href="{% url 'Inicio' %}">
@@ -76,22 +127,15 @@
             </a>
         </div>
     </div>
-
-    <!--PROBAR!! -->
-    <!-- {% if request.session.cusuario   %}
-    <form action="{% url 'home' %}" method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn-logout" style="background: none; border: none;">
-            <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
-        </button>
-    </form>
-    {% else %}
-        <p>No has iniciado sesión.</p>
-    {% endif %} -->
 </div>
 
 <div id="bar"> <!-- div de contenedor -->
     <div id="cat_bar"> <!-- div de la lista desplegable de Categorías -->
+        <div class="box-foto">
+            <img src="{{ foto_perfil.cubicacion_foto.url }}" id="foto-perfil">
+        </div>
+        <p id="saludo">  {{ persona_login.cnombre }} {{ persona_login.capellido_paterno }}</p>
+        <a href="{% url 'publicacion' %}"><div class="perfil_inicio"><i class="fa-solid fa-plus"></i></div></a>
         <!-- <form method="post"> -->
         {% csrf_token %}
         <h1 class="titulo_cat">Categorias</h1>
@@ -102,14 +146,14 @@
             {% endfor %}
         </select> 
         
-        <h1 class="titulo_cat">Ordenar por</h1>    
+        <!-- <h1 class="titulo_cat">Ordenar por</h1>    
         <select name="" class="Categorías">
             <option value="C1">Más recientes</option>
             <option value="C2">Más antiguos</option>
             <option value="C3">Más populares</option>
             <option value="C4">Precio más alto</option>
             <option value="C5">Precio mas bajo</option>
-        </select>
+        </select> -->
 
         <h1 class="titulo_cat">Estado</h1>    
         <select name="" class="Categorías">
@@ -119,22 +163,22 @@
             <option value="C4">Usado - Aceptable</option>
         </select>
 
-        <h1 class="titulo_cat">Fecha de publicación</h1>    
+        <!-- <h1 class="titulo_cat">Fecha de publicación</h1>    
         <select name="" class="Categorías">
             <option value="C1">Todas</option>
             <option value="C2">Ultimas 24 horas</option>
             <option value="C3">Ultimos 7 días</option>
             <option value="C4">Ultimos 30 días</option>
-        </select>
+        </select> -->
 
-        <h1 class="titulo_cat">Ordenar por</h1>    
+        <!-- <h1 class="titulo_cat">Ordenar por</h1>    
         <select name="" class="Categorías">
             <option value="C1">Más recientes</option>
             <option value="C2">Más antiguos</option>
             <option value="C3">Más populares</option>
             <option value="C4">Precio más alto</option>
             <option value="C5">Precio mas bajo</option>
-        </select>
+        </select> -->
     </div>
 </div>
 
@@ -143,34 +187,34 @@
     <div class="container-items">
         {% for publicacion in publicaciones %}
         <div class="item">
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                {% for i in fotos.nid_publicacion %}
-                    <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></li>
-                {% endfor %}
-                </ol>
+            <div id="carouselExampleIndicators{{ publicacion}}" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
                         {% for foto in fotos %}
-                            {% if foto.nid_publicacion.id == publicacion.nid_publicacion.id %}
-                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            {% if foto.nid_publicacion == publicacion %}
+                                <!-- foto.nid_publicacion.id == publicacion -->
+                                <!-- foto.nid_publicacion.id == publicacion.nid_publicacion.id -->
+                                <!-- AQUI EL PROBLEMA -->
+                                <div class="">
                                     <img src="{{ foto.cubicacion_foto.url }}" altalt="..." class="d-block w-100">
-                                </div>
+                                </div> 
+                                <!-- <h3 class="card-title">{{ publicacion }} - {{ foto.nid_publicacion }}</h3> -->
                             {% endif %}
                             {% empty %}
                             <p>No hay fotos para esta publicación.</p>
                         {% endfor %}
                     </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <a class="carousel-control-prev" href="#carouselExampleIndicators{{ publicacion }}" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
                 </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <a class="carousel-control-next" href="#carouselExampleIndicators{{ publicacion}}" role="button" data-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
                 </a>
             </div>
 
             <div class="info-product">
+
                 <h3 class="card-title">{{ publicacion.cnombre_producto }}</h3>
 
                 <div class="product-details">

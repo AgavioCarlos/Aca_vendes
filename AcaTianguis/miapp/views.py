@@ -93,26 +93,34 @@ def Inicio(request):
     persona_id = request.session.get('usuario_persona') #Recupera el ID de la Persona (Llave foranea)
     # Obtén el registro de la tabla 'tbl_personas' usando el ID
     try:
-        persona = datos_personales.objects.get(nid_persona=persona_id)
+        persona_login = datos_personales.objects.get(nid_persona=persona_id)
     except datos_personales.DoesNotExist:
-        persona = None  # O maneja el caso en que no se encuentra la persona
-    
+        persona_login = None  # O maneja el caso en que no se encuentra la persona
+    usuario_cuenta_login = request.session.get('usuario_id') 
+    try:
+        foto_perfil = FotoPerfil.objects.get(nid_usuario=usuario_cuenta_login)
+    except datos_personales.DoesNotExist:
+        foto_perfil = None  # O maneja el caso en que no se encuentra la persona
         
     # Obtener la información del usuario desde la base de datos
-    usuario = Usuario.objects.get(cusuario=usuario_cta)
+    cuenta_actual = Usuario.objects.get(cusuario=usuario_cta)
     
+    persona = datos_personales.objects.all()
+    usuario = Usuario.objects.all()
     categorias = Categoria.objects.all()
     publicaciones = Publicaciones.objects.all()  # Obtiene todas las publicaciones
-    fotos = FotoProducto.objects.select_related('nid_publicacion')
-
-
+    fotos = FotoProducto.objects.all()
+    
     
     context = {
-        'persona' : persona,
+        'persona_login' : persona_login,
         'categorias': categorias,
         'publicaciones': publicaciones,
         'fotos' : fotos,
+        'cuenta_actual' : cuenta_actual,
         'usuario' : usuario,
+        'persona' : persona,
+        'foto_perfil' : foto_perfil,
     }
     return render(request, 'miapp/Inicio.html', context)
 
@@ -182,7 +190,6 @@ def subirPublicacion(request):
                 nunidades = unidades 
             )
             for imagen in imagenes:
-                #ruta = f"fotos/{imagen.name}"
                 ruta = default_storage.save(f"fotos/{imagen.name}", imagen)
                 #Crear la foto asociada
                 FotoProducto.objects.create(
@@ -198,7 +205,6 @@ def subirPublicacion(request):
         'estados': estados,
     }
     return render(request, 'miapp/Formulario-publicaciones.html', context)
-
 
 def cerrar_sesion(request):
     # Elimina todas las variables de sesión
